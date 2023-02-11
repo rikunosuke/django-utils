@@ -31,20 +31,21 @@ class Log:
         else:
             log_vars = local_vars.copy()
 
-        if exc_type is None and self.when_success:
-            self.logger.info(self.get_log_message(log_vars))
-
-        if self.when_fail:
-            # エラーが起きた場合
-            self.logger.error(self.get_log_message(log_vars))
+        if exc_type is None:
+            if self.when_success:
+                self.logger.info(self.get_log_message(log_vars))
+        else:
+            if self.when_fail:
+                # エラーが起きた場合
+                self.logger.error(self.get_log_message(log_vars))
 
     @classmethod
-    def decorate(cls, **_kwargs):
+    def as_deco(cls, **kwargs):
         def wrapper(function):
             @functools.wraps(function)
-            def wrapped(*args, **kwargs):
-                with Log(**_kwargs):
-                    return function(*args, **kwargs)
+            def wrapped(*args, **_kwargs):
+                with Log(**kwargs):
+                    return function(*args, **_kwargs)
 
             return wrapped
 
