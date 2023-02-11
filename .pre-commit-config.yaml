@@ -28,3 +28,4 @@ repos:
     rev: ''  # pick a git hash / tag to point to
     hooks:
     - id: isort
+      args: ["--profile", "black"]
