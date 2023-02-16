@@ -72,8 +72,8 @@ class BaseMetricsMonitor:
         delta: timedelta = timedelta(seconds=60 * 30),
         period: int = 60,
     ):
-        now = datetime.utcnow()
         for i in range(attempt_time):
+            now = datetime.utcnow()
             dp = self.get_datapoints(now - delta, now, period=period)[0]
             self.log(f"データポイントを確認 ... {dp}")
             if run_if(dp["value"]):
